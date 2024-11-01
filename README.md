@@ -1,4 +1,4 @@
-# Node.js - Express.js - MongoDb application template
+# Node.js - Express.js - MongoDb 
 
 ## Description
 
