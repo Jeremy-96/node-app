@@ -81,9 +81,18 @@ npm start
 
 If you're familiared with Postman or a similar tool, you can try to execute a request to test the application.
 
+### Build the application
+
+The bundler tool is `Webpack` to provide a dist folder using in deployment.
+
+To build the application, run the following command in your terminal:
+```
+npm run build
+```
+
 ### Test the application
 
-The `tests` folder includes a basic unit test file. This test file use the built-in Node.js `test-runner` to avoid the import of an external package like `Jest` (but you're free to add your favorit testing tool).
+The `tests` folder includes some tests for exisitng functions in th repository but it can be improved and update during you development process. These tests files use the built-in Node.js `test-runner` to avoid the import of an external package like `Jest` (but you're free to add your favorit testing tool).
 
 To run the tests you can execute the following command in your terminal:
 
