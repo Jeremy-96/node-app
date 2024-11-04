@@ -74,7 +74,7 @@ Before starting the application, make sure that you already have install the dep
 Nodemon package is installed to launch and restart the application easyli after file's changing.
 
 ```
-npm run dev
+npm run start
 ```
 
 ### Lint

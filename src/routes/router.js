@@ -10,10 +10,10 @@ import {
 
 const router = Router();
 
-export default router;
+router.get('/models', getController)
+  .get('/models/:id', getByIdController)
+  .post('/models', baseMiddleware, postController)
+  .patch('/models/:id', baseMiddleware, patchController)
+  .delete('/models/:id', baseMiddleware, deleteController);
 
-router.get('/models', getController);
-router.get('/models/:id', getByIdController);
-router.post('/models', baseMiddleware, postController);
-router.patch('/models/:id', baseMiddleware, patchController);
-router.delete('/models/:id', baseMiddleware, deleteController);
+export default router;

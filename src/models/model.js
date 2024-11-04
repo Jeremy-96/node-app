@@ -1,10 +1,20 @@
 import mongoose from 'mongoose';
 
 const schema = new mongoose.Schema({
-  name: String,
-  content: String,
+  name: {
+    type: String,
+    required: true,
+  },
+  content: {
+    type: String,
+    required: true,
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now()
+  }
 });
 
-const BaseModel = mongoose.model('Test', schema);
+const BaseModel = mongoose.model('Model', schema);
 
 export default BaseModel;

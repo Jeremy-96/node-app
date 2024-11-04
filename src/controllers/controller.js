@@ -29,13 +29,7 @@ export const getByIdController = async (req, res) => {
 
 export const postController = async (req, res) => {
   try {
-    const { name, content } = req.body;
-
-    if (!name || !content) {
-      return res.status(404).json({ error: 'Data not found' });
-    }
-
-    const model = new BaseModel({ name, content });
+    const model = new BaseModel(req.body);
 
     await model.save();
 
