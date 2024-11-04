@@ -9,7 +9,7 @@ dotenv.config();
 const app = express();
 const uri = process.env.DATABASE_URI.replace(
   '<PASSWORD>',
-  process.env.DATABASE_PASSWORD
+  process.env.DATABASE_PASSWORD,
 );
 
 databaseConnection(uri);
