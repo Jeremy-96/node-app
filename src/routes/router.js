@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import { baseMiddleware } from '#middlewares/middleware.js';
 import {
+  getHomePage,
   getController,
   getByIdController,
   postController,
@@ -10,6 +11,7 @@ import {
 
 const router = Router();
 
+router.get('/', getHomePage);
 router.get('/models', getController);
 router.get('/models/:id', getByIdController);
 router.post('/models', baseMiddleware, postController);

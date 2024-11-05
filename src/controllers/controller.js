@@ -1,4 +1,17 @@
+import path from 'path';
 import BaseModel from '#models/model.js';
+import { generateDirname } from '#utils/files.js';
+
+export const getHomePage = (req, res) => {
+  try {
+    const __dirname = generateDirname(import.meta.url);
+
+    res.sendFile(path.join(__dirname, '../public/views', 'index.html'));
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'Internal server error' });
+  }
+};
 
 export const getController = async (req, res) => {
   try {
