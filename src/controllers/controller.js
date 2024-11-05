@@ -4,10 +4,11 @@ export const getController = async (req, res) => {
   try {
     const models = await BaseModel.find({});
 
-    return res.status(200).json(models);
+    console.log(`${req.method} ${req.originalUrl}`);
+    res.status(200).json(models);
   } catch (error) {
     console.error(error);
-    return res.status(500).json({ error: 'Internal server error' });
+    res.status(500).json({ error: 'Internal server error' });
   }
 };
 
@@ -16,27 +17,27 @@ export const getByIdController = async (req, res) => {
     const { id } = req.params;
 
     if (!id) {
-      return res.status(404).json({ error: 'Id not found' });
+      res.status(404).json({ error: 'Id not found' });
     }
 
     const model = await BaseModel.findById(id);
 
-    return res.status(200).json(model);
+    console.log(`${req.method} ${req.originalUrl}`);
+    res.status(200).json(model);
   } catch {
-    return res.status(500).json({ error: 'Internal server error' });
+    res.status(500).json({ error: 'Internal server error' });
   }
 };
 
 export const postController = async (req, res) => {
   try {
-    const model = new BaseModel(req.body);
+    await BaseModel.create(req.body);
 
-    await model.save();
-
-    return res.status(201).json(model);
+    console.log(`${req.method} ${req.originalUrl}`);
+    res.status(201).json(req.body);
   } catch (error) {
     console.error(error);
-    return res.status(500).json({ error: 'Internal server error' });
+    res.status(500).json({ error: 'Internal server error' });
   }
 };
 
@@ -46,19 +47,22 @@ export const patchController = async (req, res) => {
     const { name, content } = req.body;
 
     if (!id) {
-      return res.status(404).json({ error: 'Id not found' });
+      console.log(`${req.method} ${req.originalUrl}`);
+      res.status(404).json({ error: 'Id not found' });
     }
 
     if (!name || !content) {
-      return res.status(404).json({ error: 'Data not found' });
+      console.log(`${req.method} ${req.originalUrl}`);
+      res.status(404).json({ error: 'Data not found' });
     }
 
     const model = await BaseModel.findByIdAndUpdate(id, { name, content });
 
-    return res.status(200).json(model);
+    console.log(`${req.method} ${req.originalUrl}`);
+    res.status(200).json(model);
   } catch (error) {
     console.error(error);
-    return res.status(500).json({ error: 'Internal server error' });
+    res.status(500).json({ error: 'Internal server error' });
   }
 };
 
@@ -67,14 +71,16 @@ export const deleteController = async (req, res) => {
     const { id } = req.params;
 
     if (!id) {
-      return res.status(404).json({ error: 'Id not found' });
+      console.log(`${req.method} ${req.originalUrl}`);
+      res.status(404).json({ error: 'Id not found' });
     }
 
     await BaseModel.findByIdAndDelete(id);
 
-    return res.status(204).json({ message: 'Model deleted' });
+    console.log(`${req.method} ${req.originalUrl}`);
+    res.status(204).json({ message: 'Model deleted' });
   } catch (error) {
     console.error(error);
-    return res.status(500).json({ error: 'Internal server error' });
+    res.status(500).json({ error: 'Internal server error' });
   }
 };
