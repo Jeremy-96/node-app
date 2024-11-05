@@ -3,7 +3,7 @@ import dotenv from 'dotenv';
 import { databaseConnection } from '#utils/database.js';
 import BaseModel from '#models/model.js';
 
-dotenv.config({ path: '../.env' });
+dotenv.config({ path: './.env' });
 
 const uri = process.env.DATABASE_URI.replace(
   '<PASSWORD>',
@@ -13,7 +13,7 @@ const uri = process.env.DATABASE_URI.replace(
 databaseConnection(uri);
 
 const models = JSON.parse(
-  fs.readFileSync(`../src/dev-data/models/models.json`, 'utf-8'),
+  fs.readFileSync(`./src/dev-data/models/models.json`, 'utf-8'),
 );
 
 const importData = async () => {
