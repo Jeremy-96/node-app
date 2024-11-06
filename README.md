@@ -101,6 +101,13 @@ Nodemon package is installed to launch and restart the application easyli after 
 npm run start
 ```
 
+### Debug
+A script command is available to debug the node application using built-in node.js inspector.
+Here is the [Node inspector documentation](https://nodejs.org/en/learn/getting-started/debugging)
+```
+npm run debug
+```
+
 ### Lint
 
 After writting some lines of code, you can check the encodding by using the eslint command. Eslint check by default the encoding after updated a file but is it important to verify the entire folder before the application building.

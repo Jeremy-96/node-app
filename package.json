@@ -8,6 +8,7 @@
   "scripts": {
     "start": "nodemon src/server.js",
     "start:prod": "NODE_ENV=production nodemon src/server.js",
+    "debug": "node --inspect src/server.js",
     "lint": "eslint",
     "build": "webpack",
     "test": "node --test",
