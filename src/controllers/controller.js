@@ -1,6 +1,7 @@
 import path from 'path';
 import BaseModel from '#models/model.js';
 import { generateDirname } from '#utils/files.js';
+import { catchAsync } from '#utils/catchAsync.js';
 
 export const getHomePage = (req, res) => {
   try {
@@ -13,87 +14,74 @@ export const getHomePage = (req, res) => {
   }
 };
 
-export const getController = async (req, res) => {
-  try {
-    const models = await BaseModel.find({});
+export const getController = catchAsync(async (req, res, next) => {
+  const models = await BaseModel.find({});
 
-    console.log(`${req.method} ${req.originalUrl}`);
-    res.status(200).json(models);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Internal server error' });
+  res.status(200).json({
+    status: 'success',
+    data: models,
+  });
+});
+
+export const getByIdController = catchAsync(async (req, res, next) => {
+  const { id } = req.params;
+
+  if (!id) {
+    res.status(404).json({ error: 'Id not found' });
   }
-};
 
-export const getByIdController = async (req, res) => {
-  try {
-    const { id } = req.params;
+  const model = await BaseModel.findById(id);
 
-    if (!id) {
-      res.status(404).json({ error: 'Id not found' });
-    }
-
-    const model = await BaseModel.findById(id);
-
-    console.log(`${req.method} ${req.originalUrl}`);
-    res.status(200).json(model);
-  } catch {
-    res.status(500).json({ error: 'Internal server error' });
+  if (!model) {
+    res.status(404).json({ error: `Model with id ${id} not found` });
   }
-};
 
-export const postController = async (req, res) => {
-  try {
-    await BaseModel.create(req.body);
+  res.status(200).json({
+    status: 'success',
+    data: model,
+  });
+});
 
-    console.log(`${req.method} ${req.originalUrl}`);
-    res.status(201).json(req.body);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Internal server error' });
+export const postController = catchAsync(async (req, res, next) => {
+  const model = await BaseModel.create(req.body);
+
+  res.status(201).json({
+    status: 'success',
+    data: model,
+  });
+});
+
+export const patchController = catchAsync(async (req, res, next) => {
+  const { id } = req.params;
+  const { name, content } = req.body;
+
+  if (!id) {
+    res.status(404).json({ error: `Model with id ${id} not found` });
   }
-};
 
-export const patchController = async (req, res) => {
-  try {
-    const { id } = req.params;
-    const { name, content } = req.body;
-
-    if (!id) {
-      console.log(`${req.method} ${req.originalUrl}`);
-      res.status(404).json({ error: 'Id not found' });
-    }
-
-    if (!name || !content) {
-      console.log(`${req.method} ${req.originalUrl}`);
-      res.status(404).json({ error: 'Data not found' });
-    }
-
-    const model = await BaseModel.findByIdAndUpdate(id, { name, content });
-
-    console.log(`${req.method} ${req.originalUrl}`);
-    res.status(200).json(model);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Internal server error' });
+  if (!name || !content) {
+    res.status(404).json({ error: 'Data model is not complete' });
   }
-};
 
-export const deleteController = async (req, res) => {
-  try {
-    const { id } = req.params;
+  const model = await BaseModel.findByIdAndUpdate(id, { name, content });
 
-    if (!id) {
-      console.log(`${req.method} ${req.originalUrl}`);
-      res.status(404).json({ error: 'Id not found' });
-    }
+  res.status(200).json({
+    status: 'success',
+    data: model,
+  });
+});
 
-    await BaseModel.findByIdAndDelete(id);
+export const deleteController = catchAsync(async (req, res, next) => {
+  const { id } = req.params;
 
-    console.log(`${req.method} ${req.originalUrl}`);
-    res.status(204).json({ message: 'Model deleted' });
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: 'Internal server error' });
+  if (!id) {
+    res.status(404).json({ error: `Model with id ${id} not found` });
   }
-};
+
+  await BaseModel.findByIdAndDelete(id);
+
+  res.status(204).json({
+    status: 'success',
+    data: {},
+  });
+});
