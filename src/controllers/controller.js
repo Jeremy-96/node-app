@@ -2,6 +2,7 @@ import path from 'path';
 import BaseModel from '#models/model.js';
 import { generateDirname } from '#utils/files.js';
 import { catchAsync } from '#utils/catchAsync.js';
+import AppError from '#utils/appError.js';
 
 export const getHomePage = (req, res) => {
   try {
@@ -19,66 +20,57 @@ export const getController = catchAsync(async (req, res, next) => {
 
   res.status(200).json({
     status: 'success',
-    data: models,
+    data: {
+      models,
+    },
   });
 });
 
 export const getByIdController = catchAsync(async (req, res, next) => {
-  const { id } = req.params;
-
-  if (!id) {
-    res.status(404).json({ error: 'Id not found' });
-  }
-
-  const model = await BaseModel.findById(id);
+  const model = await BaseModel.findById(req.params.id);
 
   if (!model) {
-    res.status(404).json({ error: `Model with id ${id} not found` });
+    return next(new AppError(`Model with id ${req.params.id} not found`, 404));
   }
 
   res.status(200).json({
     status: 'success',
-    data: model,
+    data: {
+      model,
+    },
   });
 });
 
 export const postController = catchAsync(async (req, res, next) => {
-  const model = await BaseModel.create(req.body);
+  await BaseModel.create(req.body);
 
   res.status(201).json({
     status: 'success',
-    data: model,
+    data: null,
   });
 });
 
 export const patchController = catchAsync(async (req, res, next) => {
-  const { id } = req.params;
-  const { name, content } = req.body;
+  const model = await BaseModel.findByIdAndUpdate(req.params.id, req.body);
 
-  if (!id) {
-    res.status(404).json({ error: `Model with id ${id} not found` });
+  if (!model) {
+    return next(new AppError(`Model with id ${req.params.id} not found`, 404));
   }
-
-  if (!name || !content) {
-    res.status(404).json({ error: 'Data model is not complete' });
-  }
-
-  const model = await BaseModel.findByIdAndUpdate(id, { name, content });
 
   res.status(200).json({
     status: 'success',
-    data: model,
+    data: {
+      model,
+    },
   });
 });
 
 export const deleteController = catchAsync(async (req, res, next) => {
-  const { id } = req.params;
+  await BaseModel.findByIdAndDelete(req.params.id);
 
-  if (!id) {
-    res.status(404).json({ error: `Model with id ${id} not found` });
+  if (!req.params.id) {
+    return next(new AppError(`Model with id ${req.params.id} not found`, 404));
   }
-
-  await BaseModel.findByIdAndDelete(id);
 
   res.status(204).json({
     status: 'success',
