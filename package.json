@@ -12,7 +12,9 @@
     "lint": "eslint",
     "build": "webpack",
     "test": "node --test",
-    "prettier": "prettier"
+    "prettier": "prettier",
+    "fill-database": "NODE_ENV=development node src/dev-data/import-dev-data.js --import",
+    "clean-database": "NODE_ENV=development node src/dev-data/import-dev-data.js --delete"
   },
   "dependencies": {
     "cors": "^2.8.5",
