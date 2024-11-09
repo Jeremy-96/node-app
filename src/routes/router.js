@@ -8,9 +8,11 @@ import {
   patchController,
   deleteController,
 } from '#controllers/controller.js';
+import { signupController } from '#controllers/authController.js';
 
 const router = Router();
 
+router.post('/auth/signup', baseMiddleware, signupController);
 router.get('/', getHomePage);
 router.get('/models', getController);
 router.get('/models/:id', getByIdController);
