@@ -3,6 +3,11 @@ import validator from 'validator';
 import bcrypt from 'bcrypt';
 
 const userSchema = new mongoose.Schema({
+  role: {
+    type: String,
+    enum: ['user', 'admin'],
+    default: 'user',
+  },
   photo: {
     type: String,
     required: false,
@@ -54,7 +59,7 @@ userSchema.methods.correctPassword = async function (
   return await bcrypt.compare(candidatePassword, userPassword);
 };
 
-userSchema.methods.changePasswordAfter = async function (JWTTimestamp) {
+userSchema.methods.changePasswordAfter = function (JWTTimestamp) {
   if (this.passwordChangedAt) {
     const changedTimestamp = parseInt(
       this.passwordChangedAt.getTime() / 1000,

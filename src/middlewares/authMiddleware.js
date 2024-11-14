@@ -19,7 +19,7 @@ export const authMiddleware = catchAsync(async (req, res, next) => {
   }
 
   const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET);
-  const freshUser = User.findById(decoded.id);
+  const freshUser = await User.findById(decoded.id);
 
   if (!freshUser) {
     return next(new AppError('The token no longer exist', 401));
@@ -38,3 +38,7 @@ export const authMiddleware = catchAsync(async (req, res, next) => {
 
   next();
 });
+
+export const restrictToMiddleware = catchAsync(async (req, res, next) =>
+  next(new AppError('Unauthorized - Restricted to the administrator', 401)),
+);

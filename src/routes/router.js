@@ -13,7 +13,10 @@ import {
   signupController,
 } from '#controllers/authController.js';
 import { getUsersController } from '#controllers/userController.js';
-import { authMiddleware } from '#middlewares/authMiddleware.js';
+import {
+  authMiddleware,
+  restrictToMiddleware,
+} from '#middlewares/authMiddleware.js';
 
 const router = Router();
 
@@ -30,6 +33,11 @@ router.get('/models', authMiddleware, getController);
 router.get('/models/:id', getByIdController);
 router.post('/models', baseMiddleware, postController);
 router.patch('/models/:id', baseMiddleware, patchController);
-router.delete('/models/:id', baseMiddleware, deleteController);
+router.delete(
+  '/models/:id',
+  authMiddleware,
+  restrictToMiddleware,
+  deleteController,
+);
 
 export default router;

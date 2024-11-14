@@ -1,0 +1,45 @@
+[
+  {
+    "role": "admin",
+    "name": "Dutch Vanderlinde",
+    "email": "dutch.vanderlinde@gmail.com",
+    "password": "DutchVanderlinde123",
+    "passwordConfirm": "DutchVanderlinde123"
+  },
+  {
+    "role": "user",
+    "name": "Arthur Morgan",
+    "email": "arthur.morgan@gmail.com",
+    "password": "ArthurMorgan123",
+    "passwordConfirm": "ArthurMorgan123"
+  },
+  {
+    "role": "user",
+    "name": "Matthew Hosea",
+    "email": "matthew.hosea@gmail.com",
+    "password": "MatthewHosea123",
+    "passwordConfirm": "MatthewHosea123"
+  },
+  {
+    "role": "user",
+    "name": "Bill Williamson",
+    "email": "bill.williamson@gmail.com",
+    "password": "BillWilliamson123",
+    "passwordConfirm": "BillWilliamson123"
+  },
+  {
+    "role": "user",
+    "name": "John Marston",
+    "email": "john.marston@gmail.com",
+    "password": "JohnMarston123",
+    "passwordConfirm": "JohnMarston123",
+    "passwordChangedAt": "2024-11-10T00:00:00.000Z"
+  },
+  {
+    "role": "user",
+    "name": "Jack Marston",
+    "email": "jack.marston@gmail.com",
+    "password": "JackMarston123",
+    "passwordConfirm": "JackMarston123"
+  }
+]
