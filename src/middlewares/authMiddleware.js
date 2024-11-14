@@ -39,6 +39,14 @@ export const authMiddleware = catchAsync(async (req, res, next) => {
   next();
 });
 
-export const restrictToMiddleware = catchAsync(async (req, res, next) =>
-  next(new AppError('Unauthorized - Restricted to the administrator', 401)),
-);
+export const restrictToMiddleware =
+  (...roles) =>
+  (req, res, next) => {
+    if (!roles.includes(req.user.role)) {
+      return next(
+        new AppError('You are not allowed to perform this action', 403),
+      );
+    }
+
+    return next();
+  };

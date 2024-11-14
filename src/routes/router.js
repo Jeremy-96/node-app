@@ -36,7 +36,7 @@ router.patch('/models/:id', baseMiddleware, patchController);
 router.delete(
   '/models/:id',
   authMiddleware,
-  restrictToMiddleware,
+  restrictToMiddleware('admin'),
   deleteController,
 );
 
