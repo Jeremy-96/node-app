@@ -3,7 +3,7 @@ import { catchAsync } from '#utils/catchAsync.js';
 import User from '#models/userModel.js';
 import AppError from '#src/utils/appError.js';
 import { sendEmail } from '#utils/email.js';
-import { signToken } from '#utils/jwt.js';
+import createSendToken from '#utils/jwt.js';
 
 export const forgotPassword = async (req, res, next) => {
   const user = await User.findOne({ email: req.body.email });
@@ -67,13 +67,20 @@ export const resetPassword = catchAsync(async (req, res, next) => {
 
   await user.save();
 
-  const token = signToken(user._id);
+  createSendToken(user, 200, res);
+});
 
-  res.status(200).json({
-    status: 'success',
-    token,
-    data: {
-      user,
-    },
-  });
+export const updatePassword = catchAsync(async (req, res, next) => {
+  const user = await User.findById(req.user._id).select('+password');
+
+  if (!user.correctPassword(req.body.passwordCurrent, user.password)) {
+    return next(new AppError('Your current password is wrong', 401));
+  }
+
+  user.password = req.body.password;
+  user.passwordConfirm = req.body.passwordConfirm;
+
+  await user.save();
+
+  createSendToken(user, 200, res);
 });

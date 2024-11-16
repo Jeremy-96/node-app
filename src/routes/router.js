@@ -6,6 +6,7 @@ import {
 import {
   forgotPassword,
   resetPassword,
+  updatePassword,
 } from '#controllers/passwordController.js';
 import { getUsersController } from '#controllers/userController.js';
 import {
@@ -26,6 +27,7 @@ router.post('/auth/signup', signupController);
 router.post('/auth/login', loginController);
 
 // PASSWORD
+router.patch('/auth/password', auth, updatePassword);
 router.post('/auth/password/forgot', forgotPassword);
 router.patch('/auth/password/reset/:token', resetPassword);
 

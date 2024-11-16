@@ -1,19 +1,12 @@
 import User from '#models/userModel.js';
 import { catchAsync } from '#utils/catchAsync.js';
 import AppError from '#utils/appError.js';
-import { signToken } from '#utils/jwt.js';
+import createSendToken from '#utils/jwt.js';
 
 export const signupController = catchAsync(async (req, res, next) => {
-  const newUser = await User.create(req.body);
-  const token = signToken(newUser._id);
+  const user = await User.create(req.body);
 
-  res.status(201).json({
-    status: 'success',
-    token,
-    data: {
-      user: newUser,
-    },
-  });
+  createSendToken(user, 201, res);
 });
 
 export const loginController = catchAsync(async (req, res, next) => {
@@ -29,13 +22,5 @@ export const loginController = catchAsync(async (req, res, next) => {
     return next(new AppError('Unauthorize - Incorrect email or password', 401));
   }
 
-  const token = signToken(user._id);
-
-  res.status(200).json({
-    status: 'success',
-    token,
-    data: {
-      user,
-    },
-  });
+  createSendToken(user, 200, res);
 });
