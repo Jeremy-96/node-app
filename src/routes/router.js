@@ -1,5 +1,13 @@
 import { Router } from 'express';
-import { baseMiddleware } from '#middlewares/middleware.js';
+import {
+  loginController,
+  signupController,
+} from '#controllers/authController.js';
+import {
+  forgotPassword,
+  resetPassword,
+} from '#controllers/passwordController.js';
+import { getUsersController } from '#controllers/userController.js';
 import {
   getHomePage,
   getController,
@@ -8,36 +16,28 @@ import {
   patchController,
   deleteController,
 } from '#controllers/controller.js';
-import {
-  loginController,
-  signupController,
-} from '#controllers/authController.js';
-import { getUsersController } from '#controllers/userController.js';
-import {
-  authMiddleware,
-  restrictToMiddleware,
-} from '#middlewares/authMiddleware.js';
+import { baseMiddleware } from '#middlewares/middleware.js';
+import { auth, restrictedTo } from '#middlewares/authMiddleware.js';
 
 const router = Router();
 
 // AUTH
-router.post('/auth/signup', baseMiddleware, signupController);
-router.post('/auth/login', baseMiddleware, loginController);
+router.post('/auth/signup', signupController);
+router.post('/auth/login', loginController);
+
+// PASSWORD
+router.post('/auth/password/forgot', forgotPassword);
+router.patch('/auth/password/reset/:token', resetPassword);
 
 // USERS
 router.get('/users', getUsersController);
 
 // BASE MODELS
 router.get('/', getHomePage);
-router.get('/models', authMiddleware, getController);
+router.get('/models', auth, getController);
 router.get('/models/:id', getByIdController);
 router.post('/models', baseMiddleware, postController);
 router.patch('/models/:id', baseMiddleware, patchController);
-router.delete(
-  '/models/:id',
-  authMiddleware,
-  restrictToMiddleware('admin'),
-  deleteController,
-);
+router.delete('/models/:id', auth, restrictedTo('admin'), deleteController);
 
 export default router;

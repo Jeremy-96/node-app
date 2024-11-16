@@ -4,7 +4,7 @@ import { catchAsync } from '#src/utils/catchAsync.js';
 import AppError from '#src/utils/appError.js';
 import User from '#models/userModel.js';
 
-export const authMiddleware = catchAsync(async (req, res, next) => {
+export const auth = catchAsync(async (req, res, next) => {
   let token;
 
   if (
@@ -39,7 +39,7 @@ export const authMiddleware = catchAsync(async (req, res, next) => {
   next();
 });
 
-export const restrictToMiddleware =
+export const restrictedTo =
   (...roles) =>
   (req, res, next) => {
     if (!roles.includes(req.user.role)) {
