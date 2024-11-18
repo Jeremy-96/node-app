@@ -1,15 +1,7 @@
 import User from '#models/userModel.js';
-import AppError from '#src/utils/appError.js';
+import AppError from '#utils/appError.js';
+import filterObject from '#utils/object.js';
 import { catchAsync } from '#utils/catchAsync.js';
-
-const filterObject = (obj, ...properties) => {
-  const newObject = {};
-  Object.keys(obj).forEach((el) => {
-    if (properties.includes(el)) newObject[el] = obj[el];
-  });
-
-  return newObject;
-};
 
 export const getUsersController = catchAsync(async (req, res, next) => {
   const users = await User.find({});
@@ -41,5 +33,14 @@ export const updateUserController = catchAsync(async (req, res, next) => {
   res.status(200).json({
     status: 'success',
     user,
+  });
+});
+
+export const deleteUserController = catchAsync(async (req, res, next) => {
+  await User.findByIdAndUpdate(req.user.id, { active: false });
+
+  res.status(204).json({
+    status: 'success',
+    data: null,
   });
 });

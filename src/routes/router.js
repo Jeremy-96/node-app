@@ -9,6 +9,7 @@ import {
   updatePassword,
 } from '#controllers/passwordController.js';
 import {
+  deleteUserController,
   getUsersController,
   updateUserController,
 } from '#controllers/userController.js';
@@ -37,6 +38,7 @@ router.patch('/auth/password/reset/:token', resetPassword);
 // USERS
 router.get('/users', getUsersController);
 router.patch('/users', auth, updateUserController);
+router.delete('/users', auth, deleteUserController);
 
 // BASE MODELS
 router.get('/', getHomePage);
