@@ -8,7 +8,10 @@ import {
   resetPassword,
   updatePassword,
 } from '#controllers/passwordController.js';
-import { getUsersController } from '#controllers/userController.js';
+import {
+  getUsersController,
+  updateUserController,
+} from '#controllers/userController.js';
 import {
   getHomePage,
   getController,
@@ -33,6 +36,7 @@ router.patch('/auth/password/reset/:token', resetPassword);
 
 // USERS
 router.get('/users', getUsersController);
+router.patch('/users', auth, updateUserController);
 
 // BASE MODELS
 router.get('/', getHomePage);
