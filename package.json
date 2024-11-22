@@ -6,19 +6,31 @@
   "license": "ISC",
   "main": "src/server.js",
   "scripts": {
-    "dev": "nodemon src/server.js",
-    "prod": "NODE_ENV=production nodemon src/server.js",
+    "start": "nodemon src/server.js",
+    "start:prod": "NODE_ENV=production nodemon src/server.js",
+    "debug": "node --inspect src/server.js",
     "lint": "eslint",
     "build": "webpack",
     "test": "node --test",
-    "prettier": "prettier"
+    "prettier": "prettier",
+    "fill-database": "NODE_ENV=development node src/dev-data/import-dev-data.js --import",
+    "clean-database": "NODE_ENV=development node src/dev-data/import-dev-data.js --delete"
   },
   "dependencies": {
+    "bcrypt": "^5.1.1",
     "cors": "^2.8.5",
     "dotenv": "^16.4.5",
     "express": "^4.21.0",
+    "express-mongo-sanitize": "^2.2.0",
+    "express-rate-limit": "^7.4.1",
+    "helmet": "^8.0.0",
+    "hpp": "^0.2.3",
+    "jsonwebtoken": "^9.0.2",
     "mongodb": "^6.9.0",
-    "mongoose": "^8.6.3"
+    "mongoose": "^8.6.3",
+    "nodemailer": "^6.9.16",
+    "validator": "^13.12.0",
+    "xss-clean": "^0.1.4"
   },
   "devDependencies": {
     "eslint": "^8.57.1",

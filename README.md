@@ -26,22 +26,33 @@ This folder contain all the application logic.
 ```
 └─── src
     ├── app.js
-    ├─── controllers
-        └── controller.js
-    ├─── middlewares
-        └── middleware.js
-    ├─── models
-        └── model.js
-    ├─── public
-        └── index.html
-    ├─── routes
-        └── router.js
-    ├─── server.js
-    ├─── tests
-        └── math.test.js
-    └─── utils
-        ├── database.js
-        └── math.js
+    ├── server.js
+    ├── controllers
+       └── controller.js
+    ├── dev-data
+       ├── models
+          └── models.json
+       └── import-dev-data.js   
+    ├── middlewares
+       └── middleware.js
+    ├── models
+       └── model.js
+    ├── public
+      └── views
+         └── index.html
+    ├── routes
+       └── router.js
+    ├── server.js
+    ├── tests
+       ├── controllers
+          └── controller.test.js
+       ├── middlewares
+          └── middleware.test.js
+       └── utils
+          └── math.test.js
+    └── utils
+       ├── database.js
+       └── math.js
 ```
 
 ### env.template
@@ -67,6 +78,19 @@ npm install
 Add a `.env` file at the project root to manage your environment variables.  
 All required variables can be found in the `env.template` file but you need to add your own values to each variables.
 
+### Fill the database
+A CLI is available to fill or clean the database with development data under the folder `src/dev-data`.
+
+**import data**
+```
+node src/dev-data/import-dev-data.js --import
+```
+
+**delete data**
+```
+node src/dev-data/import-dev-data.js --delete
+```
+
 ### Start
 
 Before starting the application, make sure that you already have install the dependencies and adding all variables in your `.env` file.
@@ -74,7 +98,14 @@ Before starting the application, make sure that you already have install the dep
 Nodemon package is installed to launch and restart the application easyli after file's changing.
 
 ```
-npm run dev
+npm run start
+```
+
+### Debug
+A script command is available to debug the node application using built-in node.js inspector.
+Here is the [Node inspector documentation](https://nodejs.org/en/learn/getting-started/debugging)
+```
+npm run debug
 ```
 
 ### Lint

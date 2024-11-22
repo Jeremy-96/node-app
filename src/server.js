@@ -1,6 +1,12 @@
 import { createServer } from 'http';
 import app from '#src/app.js';
 
+process.on('uncaughtException', (err) => {
+  console.log(err.name, err.message);
+  console.log('Uncaught exception ! Shuting down...');
+  process.exit(1);
+});
+
 const normalizePort = (val) => {
   const port = parseInt(val, 10);
 
@@ -49,3 +55,11 @@ server.on('listening', () => {
 });
 
 server.listen(port);
+
+process.on('unhandledRejection', (err) => {
+  console.log(err.name, err.message);
+  console.log('Unhandler rejection ! Shuting down...');
+  server.close(() => {
+    process.exit(1);
+  });
+});

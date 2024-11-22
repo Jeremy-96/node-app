@@ -1,6 +1,10 @@
 {
-  "extends":["airbnb", "prettier", "plugin:node/recommended"],
+  "extends":["airbnb", "prettier", "plugin:node/recommended", "eslint:recommended"],
   "plugins": ["prettier"],
+  "parserOptions": {
+    "ecmaVersion": 2020,
+    "sourceType": "module"
+  },
   "rules": {
     "prettier/prettier": "error",
     "spaced-comment": "off",
@@ -21,6 +25,6 @@
     "no-use-before-define": "off",
     "no-restricted-globals": "off",
     "prefer-destructuring": ["error", { "object": true, "array": false }],
-    "no-unused-vars": ["error", { "argsIgnorePattern": "req|res|next|val" }]
+    "no-unused-vars": ["error", { "argsIgnorePattern": "req|res|next|val|err" }]
   }
 }
